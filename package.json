@@ -1,0 +1,63 @@
+{
+  "name": "@inventory/debug",
+  "description": "Cross platform debugging utility.",
+  "author": "Jarid Margolin <jaridmargolin@gmail.com>",
+  "version": "0.0.1",
+  "license": "MIT",
+  "homepage": "https://github.com/jaridmargolin/debug",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaridmargolin/debug"
+  },
+  "bugs": {
+    "url": "https://github.com/jaridmargolin/debug/issues"
+  },
+  "main": "dist/common/debug.js",
+  "module": "dist/es/debug.js",
+  "browser": "dist/debug.js",
+  "types": "dist/types/debug.d.ts",
+  "scripts": {
+    "check-types": "tsc",
+    "build": "yarn build-lib && yarn build-docs && yarn build-types",
+    "build-docs": "typedoc ./src/debug.ts",
+    "build-lib": "rollup -c",
+    "build-types": "tsc -p tsconfig.build.json ",
+    "format": "prettier-eslint --write \"**/*.ts\"",
+    "lint": "eslint src",
+    "prepublishOnly": "yarn build",
+    "publish-cov": "codecov",
+    "start": "jest --watch",
+    "test": "yarn check-types && yarn test:none && yarn test:all && yarn test:debug-only && yarn test:debug-children",
+    "test:none": "jest ./src/debug.node.test.ts",
+    "test:all": "cross-env DEBUG=\"*\" jest ./src/debug.node.test.ts",
+    "test:debug-only": "cross-env DEBUG=\"debug\" jest ./src/debug.node.test.ts",
+    "test:debug-children": "cross-env DEBUG=\"debug:*\" jest ./src/debug.node.test.ts",
+    "view-cov": "open-cli ./coverage/lcov-report/index.html",
+    "view-docs": "open-cli ./docs/index.html"
+  },
+  "devDependencies": {
+    "@babel/core": "7.7.5",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/preset-env": "7.7.6",
+    "@babel/preset-typescript": "7.7.4",
+    "@types/jest": "24.0.23",
+    "codecov": "4.0.0-0",
+    "cross-env": "^6.0.3",
+    "eslint": "5.8.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-node": "10.0.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1",
+    "husky": "3.1.0",
+    "jest": "24.9.0",
+    "lint-staged": "9.5.0",
+    "opn-cli": "5.0.0",
+    "prettier-eslint-cli": "4.7.1",
+    "rollup": "1.27.9",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-terser": "5.1.2",
+    "typedoc": "0.15.4",
+    "typescript": "3.7.3"
+  }
+}
