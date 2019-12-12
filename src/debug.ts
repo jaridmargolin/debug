@@ -5,16 +5,15 @@
  * Modified concepts from: https://github.com/visionmedia/debug
  * -------------------------------------------------------------------------- */
 
-type DebugValue = ReturnType<typeof loadDebugValue>
-
 const loadDebugValue = () => {
   // NOTE: This is necessary because safari throws when a user disables
   // cookies/localstorage and you attempt to access it.
-  // NOTE: TVMLKit (Apple TV JS Runtime) does not have a window object, just
-  // localStorage in the global context. The Browser also has localStorage in
-  // the global context.
   let storage
   try {
+    // NOTE: TVMLKit (Apple TV JS Runtime) does not have a window object, just
+    // localStorage in the global context. The Browser also has localStorage in
+    // the global context.
+    // eslint-disable-next-line
     storage = localStorage
   } catch (e) {}
 
@@ -28,7 +27,7 @@ const loadDebugValue = () => {
   } catch (error) {}
 }
 
-const parseDebugValue = (debugValue: DebugValue) =>
+const parseDebugValue = (debugValue: ReturnType<typeof loadDebugValue>) =>
   debugValue
     ? debugValue
       .split(/[\s,]+/)
