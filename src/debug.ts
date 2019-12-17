@@ -40,5 +40,8 @@ export default function debug (
   name: string,
   log = console.debug || console.log || (() => null)
 ) {
-  return namePatterns.some(pattern => pattern.test(name)) ? log : () => null
+  return namePatterns.some(pattern => pattern.test(name))
+    ? (message?: any, ...optionalParams: any[]) =>
+      log(name, message, ...optionalParams)
+    : () => null
 }

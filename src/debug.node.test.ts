@@ -14,15 +14,23 @@ import debug from './debug'
 
 describe('debug', function () {
   test('Should log.', () => {
-    let debugged = [false, false]
-    debug('debug', () => (debugged[0] = true))()
-    debug('debug:test', () => (debugged[1] = true))()
+    const debugSpy = jest.spyOn(console, 'debug')
 
-    expect(debugged[0]).toBe(
-      process.env.DEBUG === '*' || process.env.DEBUG === 'debug'
-    )
-    expect(debugged[1]).toBe(
-      process.env.DEBUG === '*' || process.env.DEBUG === 'debug:*'
-    )
+    debug('debug')('my message')
+    debug('debug:test')('my message')
+
+    let expected: string[][] = []
+    if (process.env.DEBUG === '*') {
+      expected = [
+        ['debug', 'my message'],
+        ['debug:test', 'my message']
+      ]
+    } else if (process.env.DEBUG === 'debug') {
+      expected = [['debug', 'my message']]
+    } else if (process.env.DEBUG === 'debug:*') {
+      expected = [['debug:test', 'my message']]
+    }
+
+    expect(debugSpy.mock.calls).toEqual(expected)
   })
 })
